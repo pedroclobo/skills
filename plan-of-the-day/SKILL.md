@@ -4,11 +4,12 @@ description: Draft today's plan of the day from GitHub notification emails in Gm
 disable-model-invocation: true
 ---
 
-Produce today's plan of the day from GitHub email notifications.
+Produce today's plan of the day from GitHub email notifications and `gh`.
+`gh` should be used outside the dev container.
 
 ## 1. Determine the window
 
-The window runs from the last workday through today. Start from yesterday and walk back past weekend days (Sat/Sun) to the most recent workday; that day at 00:00 local time is the window start.
+The window runs from the last workday through today. Start from yesterday and walk back past weekend days (Sat/Sun) to the most recent workday.
 
 Done when: you have a concrete start date.
 
@@ -28,18 +29,18 @@ Done when: every GitHub email in the window is classified as Address, Review, or
 For each candidate PR (repo taken from its URL), check state:
 
 - Drop PRs that are merged or closed: `gh pr view <num> --repo <owner>/<repo> --json state`.
-- Drop Review items the user already reviewed since the request: `gh pr view <num> --repo <owner>/<repo> --json reviews` and look for a review by the user newer than the request email.
+- Drop review items the user already reviewed since the request: `gh pr view <num> --repo <owner>/<repo> --json reviews` and look for a review by the user newer than the request email.
 
 Done when: every candidate PR was checked and kept or dropped.
 
 ## 4. Emit the plan
 
-Print in chat, exactly this format (date is today, `month/day`, no leading zeros; Address items joined with "and"; omit a bullet if it has no PRs):
+Print in chat, in the following format:
 
 ```
 [7/10]
-- Address [#18774](https://github.com/furiosa-ai/npu-tools/pull/18774) and [#18597](https://github.com/furiosa-ai/npu-tools/pull/18597) review comments.
-- Review [#18753](https://github.com/furiosa-ai/npu-tools/pull/18753).
+- Address [#12345](https://github.com/llvm/llvm-project/pull/12345), [#12346](https://github.com/llvm/llvm-project/pull/12346) and [#12347](https://github.com/llvm/llvm-project/pull/12347) review comments.
+- Review [#12348](https://github.com/llvm/llvm-project/pull/12348).
 ```
 
 Done when: the plan is printed and every kept item from step 3 appears in it.
