@@ -9,17 +9,15 @@ Rebase the current branch onto the requested base. Use local `master` when the u
 
 ## 1. Establish the rebase
 
-1. Read the applicable `AGENTS.md`, `CLAUDE.md`, repository instructions, and project commands before changing files.
-2. Resolve the repository root, current branch, current `HEAD`, and base:
+1. Resolve the repository root, current branch, current `HEAD`, and base:
    - Use the user's explicit base when provided
-   - Otherwise use the local branch `master` exactly
-   - Treat a missing local base as a blocker rather than silently choosing `main`, `trunk`, or a remote branch
-3. Inspect `git status --short`.
+   - Otherwise use the local `master` or `main` branches
+2. Inspect `git status --short`.
    - If a rebase is already in progress, inspect and resume that rebase instead of starting another one. Reconstruct its current state before changing files.
    - Otherwise, proceed only with a clean, attached branch that is not the base branch.
    - If that worktree is dirty, explain the paths at risk and recommend committing or stashing them. Resume only after the user makes the worktree safe.
-4. Record the starting branch, `HEAD`, base ref, base commit, and the ordered commits in `<base>..HEAD`.
-5. Create a temporary directory for conflict snapshots. Keep it until the final report, then remove it.
+3. Record the starting branch, `HEAD`, base ref, base commit, and the ordered commits in `<base>..HEAD`.
+4. Create a temporary directory for conflict snapshots. Keep it until the final report, then remove it.
 
 Done when the exact branch, local base, starting commits, and clean-worktree state are recorded.
 
