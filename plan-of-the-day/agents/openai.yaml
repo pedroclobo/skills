@@ -1,0 +1,5 @@
+interface:
+  display_name: "Plan of the day"
+  short_description: "Draft today's plan from GitHub notifications"
+policy:
+  allow_implicit_invocation: false

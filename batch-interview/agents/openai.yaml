@@ -1,0 +1,3 @@
+interface:
+  display_name: "Batch interview"
+  short_description: "Ask every design question round by round"

@@ -1,0 +1,5 @@
+interface:
+  display_name: "Teach"
+  short_description: "Teach a new skill or concept over time"
+policy:
+  allow_implicit_invocation: false

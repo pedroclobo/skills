@@ -1,0 +1,5 @@
+interface:
+  display_name: "Prune worktrees"
+  short_description: "Remove worktrees for merged GitHub PRs"
+policy:
+  allow_implicit_invocation: false

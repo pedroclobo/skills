@@ -1,0 +1,3 @@
+interface:
+  display_name: "Rebase"
+  short_description: "Rebase the current branch with conflict tracking"

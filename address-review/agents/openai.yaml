@@ -1,0 +1,5 @@
+interface:
+  display_name: "PR review fixes"
+  short_description: "Interview and implement agreed PR fixes"
+policy:
+  allow_implicit_invocation: false

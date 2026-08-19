@@ -1,0 +1,3 @@
+interface:
+  display_name: "vSFR"
+  short_description: "Implement and review vSFR engine conventions"
