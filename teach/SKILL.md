@@ -1,24 +1,32 @@
 ---
 name: teach
-description: Teach the user a new skill or concept. Learning workspaces live in ~/teach, one per topic.
+description: Teach the user a new skill or concept. Courses live in ~/teach, one per topic.
 disable-model-invocation: true
 argument-hint: "What would you like to learn about?"
 ---
 
 The user has asked you to teach them something. This is a stateful request - they intend to learn the topic over multiple sessions.
 
-## Teaching Workspaces
+## Courses
 
-All learning lives under `~/teach`, one workspace directory per topic, named with a dash-case slug (e.g. `~/teach/fetch-engine/`, `~/teach/yoga/`).
+All learning lives under `~/teach`, one **course** directory per topic, named with a dash-case slug (e.g. `~/teach/fetch-engine/`, `~/teach/yoga/`).
 
-Selecting the workspace when invoked:
+Selecting the course when invoked:
 
-- If the argument matches an existing topic directory (fuzzy match is fine), continue in that workspace.
+- If the argument matches an existing course directory (fuzzy match is fine), continue in that course.
 - If it clearly names a new topic, create `~/teach/<topic-slug>/` and start there.
-- If no argument is given, list the existing topics and ask the user whether to continue one or start a new one.
+- If no argument is given, list the existing courses and ask the user whether to continue one or start a new one.
 
-The state of the user's learning is captured in each workspace in several files:
+Two files sit at `~/teach` itself, above the courses:
 
+- `index.html`: the courses page, the one place that lists every course and links into it. Built once from [INDEX-TEMPLATE.html](./INDEX-TEMPLATE.html).
+- `courses.js`: the manifest the courses page renders from. Refresh it at the start of every session, so the page is never stale. Use the format in [MANIFEST-FORMAT.md](./MANIFEST-FORMAT.md).
+- `assets/teach.css` and `assets/teach.js`: copies of the files in this skill's `assets/`. Refresh both at the start of every session by copying them over, and never edit the copies.
+
+The state of the user's learning is captured in each course in several files:
+
+- `index.html`: the course page, which is its table of contents. Built from [COURSE-TEMPLATE.html](./COURSE-TEMPLATE.html).
+- `course.js`: the manifest holding the course structure, which is what renders the course page, every lesson sidebar, and prev/next. Update it whenever you add a lesson or a reference doc. Use the format in [MANIFEST-FORMAT.md](./MANIFEST-FORMAT.md).
 - `MISSION.md`: A document capturing the _reason_ the user is interested in the topic. This should be used to ground all teaching. Use the format in [MISSION-FORMAT.md](./MISSION-FORMAT.md).
 - `GLOSSARY.md`: The canonical terminology for the topic. All lessons, reference docs, and learning records adhere to it. Use the format in [GLOSSARY-FORMAT.md](./GLOSSARY-FORMAT.md).
 - `./reference/*.html`: A directory of reference materials. These are the compressed learnings from the lessons - cheat sheets, reference algorithms, syntax, yoga poses, glossaries. They are the raw units of learning, designed for quick reference. Build them from [REFERENCE-TEMPLATE.html](./REFERENCE-TEMPLATE.html).
@@ -54,24 +62,51 @@ Fluency can give the user an illusory sense of mastery, but storage strength is 
 
 ## Templates
 
-Every lesson and reference document is built from the shared templates in this skill directory, so all topics look and feel identical:
+Every page is built from the shared templates in this skill directory, so all courses look and feel identical:
 
 - [LESSON-TEMPLATE.html](./LESSON-TEMPLATE.html) for `./lessons/`
 - [REFERENCE-TEMPLATE.html](./REFERENCE-TEMPLATE.html) for `./reference/`
+- [COURSE-TEMPLATE.html](./COURSE-TEMPLATE.html) for a course's `index.html`
+- [INDEX-TEMPLATE.html](./INDEX-TEMPLATE.html) for `~/teach/index.html`
 
 The templates are **block kits**: copy the template, then compose the document from its blocks - repeat, omit, reorder, and rename section headings freely to fit the topic. The required blocks are listed in each template's header comment.
 
-Never restyle. Do not add fonts, colors, or CSS beyond what the template provides; do not write lesson HTML from scratch. Delete unused blocks and all template comments before saving. Workspaces migrated from before the templates existed may contain older-styled documents - leave them as they are, and use the templates for everything new.
+All styling and behaviour live in `assets/teach.css` and `assets/teach.js`, shared by every page. Never restyle, and never write a page from scratch. The one exception is a lesson's own diagrams: figure CSS goes inside the `<svg>`, uses the theme variables so it follows dark and light, and stays scoped to that figure. When a diagram pattern recurs across lessons, move it into `teach.css` rather than copying it again.
+
+Delete unused blocks and all template comments before saving.
+
+## Session Start
+
+Before teaching anything, in this order:
+
+1. Copy `assets/teach.css` and `assets/teach.js` from this skill to `~/teach/assets/`.
+2. Rewrite `~/teach/courses.js` from what is actually on disk, and create `~/teach/index.html` from the template if it is missing.
+3. Open the course page, or the courses page when no course is chosen yet.
+
+After writing any lesson or reference doc, update that course's `course.js` and `courses.js`. Navigation is rendered from those manifests, so a lesson missing from a manifest is a lesson the user cannot reach.
+
+## Writing Style
+
+Write like a teacher explaining something to one person: concise, plain and direct. This applies to lessons, reference docs, summaries and manifests.
+
+- No em-dashes. Use a full stop, a comma, or brackets.
+- No semicolons in the middle of a sentence. Split the sentence instead.
+- Short sentences over long ones. Cut any word that is not doing work.
+- No filler openers, no throat-clearing, no restating the heading in the first line.
 
 ## Lessons
 
-A lesson is the main thing you produce — the unit in which knowledge and skills reach the user. Each lesson is one self-contained HTML file, saved to `./lessons/` and titled `0001-<dash-case-name>.html` where the number increments each time. Superseded lessons (e.g. after a curriculum reset) live in `./lessons/archive/` and do not participate in numbering.
+A lesson is the main thing you produce, the unit in which knowledge and skills reach the user. Each lesson is one HTML file, saved to `./lessons/` and titled `0001-<dash-case-name>.html` where the number increments each time. Superseded lessons (e.g. after a curriculum reset) live in `./lessons/archive/` and do not participate in numbering or appear in `course.js`.
 
-The lesson should be short, and completable very quickly. Learners' working memory is very small, and we need to stay within it. But each lesson should give the user a single tangible win that they can build on. It should be directly tied to the mission, and should be in the user's zone of proximal development.
+A lesson reads like a short chapter of a book. Prose and subchapters, no cards, no decoration. Each `h2` is one subchapter, and the user can fold it away, so a subchapter has to stand on its own. Aim for four to six of them.
+
+The lesson should be short, and completable very quickly. Learners' working memory is very small, and we need to stay within it. But each lesson should give the user a single tangible win that they can build on. It should sit in the user's zone of proximal development.
+
+The mission does not appear in the lesson. It is stated once, on the course page. The lesson earns its place by being the right next thing, not by announcing why.
 
 If possible, open the lesson file for the user by running a CLI command.
 
-Each lesson should link via HTML anchors to other lessons and reference documents.
+Prev and next links, the sidebar and the contents rail are all rendered from `course.js`. Beyond those, link by hand to the reference docs and other lessons a claim depends on, including lessons in other courses.
 
 Each lesson should recommend a primary source for the user to read or watch. This should be the most high-quality, high-trust resource you found on the topic. This could also be a local resource, like a snippet of code in the user's filesystem.
 
@@ -79,7 +114,7 @@ Each lesson should contain a reminder to ask followup questions to the agent. Th
 
 ## The Mission
 
-Every lesson should be tied into the mission - the reason that the user is interested in learning about the topic.
+Every lesson should be chosen against the mission, the reason that the user is interested in learning about the topic. The mission steers what you teach next. It is not written into the lesson.
 
 If the user is unclear about the mission, or the `MISSION.md` is not populated, your first job should be to question the user on why they want to learn this.
 
@@ -116,7 +151,7 @@ For skill acquisition, difficulty is the tool. Effortful retrieval is what build
 
 Each of these should be based on a **feedback loop**, where the user receives feedback on their performance. This feedback loop should be as tight as possible, giving feedback immediately - and ideally automatically.
 
-For quizzes, each answer should be exactly the same number of words (and characters, if possible). Don't give the user any clues about the answer through formatting.
+For quizzes, each answer should be exactly the same number of words (and characters, if possible). Don't give the user any clues about the answer through formatting. Number the questions, and give every answer a `data-why` line explaining why it is right or wrong, so the feedback teaches rather than just scoring.
 
 ## Acquiring Wisdom
 
@@ -142,7 +177,9 @@ Some learning topics lend themselves to reference:
 - Exercises and routines for fitness
 - Glossaries for any topic with its own nomenclature
 
-Glossaries are special: the canonical terminology lives in `GLOSSARY.md` at the workspace root (see [GLOSSARY-FORMAT.md](./GLOSSARY-FORMAT.md)), not in `./reference/`. Once a term is there, adhere to it in every lesson and reference doc. A rendered `reference/*.html` glossary is optional and derived from `GLOSSARY.md`.
+Every reference doc must be listed in the course's `course.js`, or it will not appear in any sidebar.
+
+Glossaries are special: the canonical terminology lives in `GLOSSARY.md` at the course root (see [GLOSSARY-FORMAT.md](./GLOSSARY-FORMAT.md)), not in `./reference/`. Once a term is there, adhere to it in every lesson and reference doc. A rendered `reference/*.html` glossary is optional and derived from `GLOSSARY.md`.
 
 ## `NOTES.md`
 

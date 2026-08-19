@@ -4,206 +4,115 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- ============================================================
-  LESSON TEMPLATE — copy this file to <workspace>/lessons/NNNN-<dash-case-name>.html
+  LESSON TEMPLATE — copy to <course>/lessons/NNNN-<dash-case-name>.html
 
-  This is a BLOCK KIT, not a fixed form. Compose the lesson from the
-  blocks below: repeat, omit, reorder, and rename kickers freely
-  (e.g. "Anatomy" instead of "Knowledge" for yoga).
+  A lesson reads like a short chapter. Prose and subchapters, no cards.
+  Compose it from the blocks below: repeat, omit and reorder freely.
 
-  REQUIRED in every lesson:
-    1. the header (lesson number, title, mission line)
-    2. at least one practice block (quiz or checklist)
-    3. the teacher footer
+  REQUIRED
+    1. body class="page-lesson" and data-lesson set to this file's name
+    2. an h1, and a .lede of one or two sentences
+    3. at least two .sec sections, each with a unique id
+    4. at least one practice block, quiz or checklist
+    5. the empty nav.side, aside.rail, nav.pn and .ask at the foot
 
-  Do NOT restyle. Do not add fonts, colors, or CSS beyond this file.
-  Delete unused blocks and all template comments before saving.
+  The sidebar, the contents rail and prev/next are all rendered by
+  teach.js from ../course.js. Leave those elements empty, and add
+  this lesson to course.js when you save.
+
+  Do NOT restyle. The only CSS allowed in this file is one <style>
+  block for this lesson's own figures, marked as shown below.
+  Delete unused blocks and every template comment before saving.
 ============================================================ -->
-<title>Lesson NNNN · TOPIC — TITLE</title>
-<style>
-  :root {
-    --bg: #22272e; --card: #2d333b; --border: #444c56;
-    --text: #adbac7; --strong: #cdd9e5; --muted: #768390;
-    --accent: #539bf5; --ok: #57ab5a; --ok-text: #6bc46d;
-    --bad: #e5534b; --bad-text: #f47067; --warn: #c69026;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text);
-         font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-         font-size: .98rem; line-height: 1.6; }
-  .inner { max-width: 60rem; margin: 0 auto; padding: 3rem 2.5rem 4rem; }
-
-  .lesson-no { display: block; color: var(--accent);
-               font-size: .95rem; font-weight: 600; letter-spacing: .1em; }
-  h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: -.02em;
-       margin: .5rem 0 .4rem; color: var(--strong); }
-  .mission { color: var(--muted); margin: 0 0 2.4rem; max-width: 46rem; font-size: 1.05rem; }
-
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-          padding: 1.4rem 1.7rem; margin: 1.1rem 0; }
-  .kicker { font-size: 1.05rem; font-weight: 700; letter-spacing: .1em;
-            text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .7rem; }
-  .cite { font-size: .8rem; color: var(--muted); }
-  a { color: var(--accent); }
-  strong, b { color: var(--strong); }
-
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin: 1.1rem 0; }
-  .row .card { margin: 0; }
-  .quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-
-  /* quiz */
-  .quiz p.q { margin: .2rem 0 .6rem; font-weight: 600; color: var(--strong); }
-  .quiz button { display: block; width: 100%; text-align: left; margin: .4rem 0;
-                 font: inherit; font-size: .92rem; background: var(--bg); color: var(--text);
-                 border: 1px solid var(--border); border-radius: 8px;
-                 padding: .55rem .9rem; cursor: pointer; transition: border-color .15s; }
-  .quiz button:hover { border-color: var(--accent); }
-  .quiz button.picked-right { background: rgba(87,171,90,.15); border-color: var(--ok); color: var(--ok-text); }
-  .quiz button.picked-wrong { background: rgba(229,83,75,.12); border-color: var(--bad); color: var(--bad-text); }
-  .feedback { font-size: .85rem; font-weight: 600; min-height: 1.2em; }
-  .feedback.ok { color: var(--ok-text); }
-  .feedback.no { color: var(--bad-text); }
-
-  /* checklist (state persists in localStorage) */
-  .checklist { list-style: none; padding: 0; margin: .4rem 0; }
-  .checklist li { display: flex; gap: .7rem; align-items: baseline; padding: .45rem .2rem;
-                  border-bottom: 1px solid var(--border); }
-  .checklist li:last-child { border-bottom: none; }
-  .checklist input[type=checkbox] { accent-color: var(--ok); transform: translateY(2px); }
-  .checklist li:has(input:checked) { color: var(--muted); text-decoration: line-through; }
-
-  /* code */
-  pre { background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-        padding: .9rem 1.1rem; overflow-x: auto; font-size: .85rem; line-height: 1.55; }
-  code { font-family: ui-monospace, "JetBrains Mono", monospace; }
-  p code, li code { background: var(--bg); border: 1px solid var(--border);
-                    border-radius: 4px; padding: .08em .35em; font-size: .85em; }
-  .tok-k { color: #f47067; } /* keyword   */
-  .tok-s { color: #96d0ff; } /* string    */
-  .tok-c { color: #768390; } /* comment   */
-  .tok-f { color: #dcbdfb; } /* function  */
-  .tok-n { color: #6cb6ff; } /* num/const */
-
-  /* callouts */
-  .callout { border-left: 3px solid var(--accent); background: rgba(83,155,245,.08);
-             border-radius: 0 8px 8px 0; padding: .7rem 1rem; margin: .9rem 0; font-size: .92rem; }
-  .callout.tip { border-color: var(--ok); background: rgba(87,171,90,.08); }
-  .callout.warn { border-color: var(--warn); background: rgba(198,144,38,.08); }
-  .callout > b:first-child { display: block; margin-bottom: .15rem; }
-
-  /* table */
-  table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .8rem 0; }
-  th, td { border: 1px solid var(--border); padding: .45rem .7rem; text-align: left; }
-  th { color: var(--strong); background: var(--bg); }
-  tbody tr:nth-child(even) { background: rgba(68,76,86,.18); }
-
-  /* figure */
-  figure { margin: 1rem 0; text-align: center; }
-  figure svg, figure img { max-width: 100%; }
-  figcaption { color: var(--muted); font-size: .8rem; margin-top: .4rem; }
-
-  .teacher { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 2.4rem; }
-  .refs { font-size: .88rem; }
-
-  @media (max-width: 800px) {
-    .inner { padding: 2rem 1.2rem 3rem; }
-    .row, .quiz-grid { grid-template-columns: 1fr; }
-  }
-  @media print {
-    :root { --bg: #fff; --card: #fff; --border: #d0d7de;
-            --text: #24292f; --strong: #000; --muted: #57606a;
-            --accent: #0550ae; --ok: #1a7f37; --ok-text: #1a7f37;
-            --bad: #cf222e; --bad-text: #cf222e; --warn: #9a6700; }
-    body { font-size: 11pt; }
-    .inner { padding: 0; max-width: none; }
-    .card { break-inside: avoid; }
-    .quiz button { transition: none; }
-    .teacher { display: none; }
-  }
-</style>
+<title>TITLE · COURSE TITLE</title>
+<link rel="stylesheet" href="../../assets/teach.css">
 </head>
-<body>
-<main class="inner">
+<body class="page-lesson" data-lesson="NNNN-dash-case-name.html">
 
-  <!-- BLOCK: header (required) -->
-  <span class="lesson-no">LESSON NNNN · TOPIC-SLUG</span>
-  <h1>Lesson title</h1>
-  <p class="mission">Why this: one line tying the lesson to MISSION.md.</p>
+<div class="wrap">
+  <nav class="side"></nav>
 
-  <!-- BLOCK: section card — any kicker heading; repeat as needed -->
-  <div class="card"><span class="kicker">Knowledge</span>
-    <p>Body text. Cite claims inline.</p>
-    <!-- inline elements available inside any card: -->
-    <div class="callout"><b>Note</b> plain callout; also class="callout tip" and "callout warn".</div>
-    <pre><code><span class="tok-c">// token classes: tok-k tok-s tok-c tok-f tok-n</span>
+  <main>
+  <div class="col">
+
+    <h1>Lesson title</h1>
+    <p class="lede">One or two sentences on what this lesson gives the user. Plain and direct.</p>
+
+    <!-- BLOCK: section. Repeat. Every .sec needs a unique id, which is what
+         the contents rail links to and what remembers the folded state. -->
+    <section class="sec" id="some-id">
+      <h2>Subchapter heading</h2>
+      <div class="body">
+        <p>Body text. Cite claims inline.</p>
+
+        <h3>A smaller heading inside the section</h3>
+        <p>Use h3 sparingly, when a section has two or three distinct parts.</p>
+
+        <!-- inline blocks, usable inside any section -->
+        <div class="note"><b>Note</b> A short aside. Also class="note tip" and class="note warn".</div>
+
+        <pre><code><span class="tok-c"># token classes: tok-k tok-s tok-c tok-f tok-n</span>
 <span class="tok-k">let</span> x = <span class="tok-f">example</span>(<span class="tok-s">"string"</span>, <span class="tok-n">42</span>);</code></pre>
-    <table>
-      <thead><tr><th>Col</th><th>Col</th></tr></thead>
-      <tbody><tr><td>…</td><td>…</td></tr></tbody>
-    </table>
-    <figure><!-- inline SVG or diagram --><figcaption>Caption.</figcaption></figure>
-    <p class="cite">Sources: <a href="#">source</a> · <a href="#">source</a></p>
-  </div>
 
-  <!-- BLOCK: quiz practice — one .quiz per question; data-answer = correct data-k.
-       All answers in a question must have the same number of words.
-       Wrap 2+ questions in .quiz-grid for two-up layout. -->
-  <div class="card"><span class="kicker">Practice</span>
-    <div class="quiz-grid">
-      <div class="quiz" data-answer="a">
-        <p class="q">1. Question text:</p>
-        <button data-k="a">answer with same word count</button>
-        <button data-k="b">answer with same word count</button>
-        <button data-k="c">answer with same word count</button>
-        <p class="feedback"></p>
+        <table>
+          <thead><tr><th>Col</th><th>Col</th></tr></thead>
+          <tbody><tr><td>…</td><td>…</td></tr></tbody>
+        </table>
+
+        <figure>
+          <svg viewBox="0 0 560 96" width="100%" role="img" aria-label="Describe the diagram">
+            <!-- Figure CSS goes inside the svg and uses the theme variables, so the
+                 diagram follows dark and light: var(--accent), var(--strong), var(--muted). -->
+            <style>
+              .fb { fill: none; stroke: var(--accent); opacity: .5 }
+              .ft { font: 600 10px system-ui, sans-serif; fill: var(--strong) }
+              .fs { font: 9px system-ui, sans-serif; fill: var(--muted) }
+            </style>
+          </svg>
+          <figcaption>What the diagram shows.</figcaption>
+        </figure>
+
+        <p class="cite">Sources: <a href="#">source</a> · <a href="#">source</a></p>
       </div>
-    </div>
+    </section>
+
+    <!-- BLOCK: practice. Quizzes are numbered, one question per line.
+         data-a is the correct data-k. Every answer in a question must have
+         the same number of words. data-why explains that answer. -->
+    <section class="sec" id="practice">
+      <h2>Practice</h2>
+      <div class="body">
+
+        <div class="quiz" data-a="a">
+          <p class="q"><span class="qn">1.</span> Question text?</p>
+          <button data-k="a" data-why="Why this one is right.">answer of four words</button>
+          <button data-k="b" data-why="Why this one is wrong.">answer of four words</button>
+          <button data-k="c" data-why="Why this one is wrong.">answer of four words</button>
+          <p class="why"></p>
+        </div>
+
+        <!-- BLOCK: checklist, for real-world steps. Checked state persists. -->
+        <h3>Do this now</h3>
+        <ul class="check">
+          <li><input type="checkbox"> <span>Step one, phrased as an action.</span></li>
+          <li><input type="checkbox"> <span>Step two.</span></li>
+        </ul>
+
+        <!-- BLOCK: primary source (required somewhere in the lesson) -->
+        <p class="cite"><b>Primary source</b> <a href="#">The single best resource</a>, how long it takes.</p>
+      </div>
+    </section>
+
+    <nav class="pn"></nav>
+    <p class="ask">Anything unclear? Ask your teacher, and reply in the session.</p>
+
   </div>
+  </main>
 
-  <!-- BLOCK: checklist practice — for real-world steps (checked state persists) -->
-  <div class="card"><span class="kicker">Do this now</span>
-    <ul class="checklist">
-      <li><input type="checkbox"> <span>Step one, phrased as an action.</span></li>
-      <li><input type="checkbox"> <span>Step two.</span></li>
-    </ul>
-  </div>
+  <aside class="rail"></aside>
+</div>
 
-  <!-- BLOCK: primary source + refs (two-up row; use standalone .card if only one) -->
-  <div class="row">
-    <div class="card"><span class="kicker">Primary source</span>
-      <a href="#">The single best resource</a> — what to read/watch and how long it takes.</div>
-    <div class="card refs"><span class="kicker">Reference</span>
-      <a href="#">cheat-sheet</a> · <a href="#">glossary</a> · <a href="#">← previous lesson</a></div>
-  </div>
-
-  <!-- BLOCK: teacher footer (required) -->
-  <p class="teacher">Anything unclear? Ask your teacher — reply in the session and I’ll explain.</p>
-
-</main>
-<script>
-  document.querySelectorAll('.quiz').forEach(function (q) {
-    var buttons = q.querySelectorAll('button[data-k]');
-    buttons.forEach(function (b) {
-      b.addEventListener('click', function () {
-        var ok = b.dataset.k === q.dataset.answer;
-        buttons.forEach(function (x) { x.classList.remove('picked-right', 'picked-wrong'); });
-        b.classList.add(ok ? 'picked-right' : 'picked-wrong');
-        var f = q.querySelector('.feedback');
-        f.textContent = ok ? 'Correct.' : 'Not quite — try again.';
-        f.className = 'feedback ' + (ok ? 'ok' : 'no');
-      });
-    });
-  });
-  (function () {
-    var key = 'teach-checklist:' + location.pathname;
-    var boxes = document.querySelectorAll('.checklist input[type=checkbox]');
-    var saved = JSON.parse(localStorage.getItem(key) || '[]');
-    boxes.forEach(function (b, i) {
-      b.checked = !!saved[i];
-      b.addEventListener('change', function () {
-        localStorage.setItem(key, JSON.stringify([].map.call(boxes, function (x) { return x.checked; })));
-      });
-    });
-  })();
-</script>
+<script src="../course.js"></script>
+<script src="../../assets/teach.js"></script>
 </body>
 </html>

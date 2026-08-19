@@ -1,0 +1,277 @@
+/* ============================================================
+   teach.css — the single stylesheet for every teach page.
+   Source of truth: ~/.claude/skills/teach/assets/teach.css
+   Copied to ~/teach/assets/teach.css. Never edit the copy.
+
+   Pages that use it:
+     ~/teach/index.html          body.page-index
+     <course>/index.html         body.page-course
+     <course>/lessons/*.html     body.page-lesson
+     <course>/reference/*.html   body.page-reference
+   ============================================================ */
+
+:root {
+  --bg: #22272e; --panel: #1f242b; --text: #adbac7; --strong: #cdd9e5; --muted: #7b8794;
+  --border: #373e47; --rule: #2f353d;
+  --accent: #6cb6ff; --accent-dim: #316dca;
+  --ok: #57ab5a; --bad: #e5534b; --warn: #daaa3f;
+  --sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  --measure: 42rem;
+}
+body.light {
+  --bg: #fdfcfa; --panel: #f5f2ec; --text: #3a4048; --strong: #14181d; --muted: #6b7480;
+  --border: #ddd8ce; --rule: #e7e2d8;
+  --accent: #0b5cad; --accent-dim: #0b5cad;
+  --ok: #1a7f37; --bad: #cf222e; --warn: #8a6100;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans);
+       font-size: .97rem; line-height: 1.68; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+strong, b { color: var(--strong); font-weight: 650; }
+em { color: var(--strong); font-style: italic; }
+p { margin: 0 0 1rem; }
+@media (min-width: 600px) {
+  .page-lesson .body > p:not(.cite):not(.q):not(.why) { text-align: justify; }
+}
+li { margin: .22rem 0; }
+ul, ol.list { padding-left: 1.25rem; margin: 0 0 1rem; }
+
+/* ---------------- controls (top right, injected by teach.js) ---------------- */
+.ctl { position: fixed; top: .8rem; right: 1rem; z-index: 20; display: flex; gap: .35rem; }
+.ctl button { background: var(--panel); border: 1px solid var(--border); color: var(--muted);
+              border-radius: 6px; font: 600 .72rem/1 var(--sans); letter-spacing: .04em;
+              padding: .42rem .55rem; cursor: pointer; }
+.ctl button:hover { color: var(--accent); border-color: var(--accent-dim); }
+.ctl button.off { opacity: .5; }
+
+/* ---------------- lesson layout ---------------- */
+.wrap { display: grid; grid-template-columns: 15.5rem minmax(0,1fr) 13.5rem; align-items: start; }
+body.no-side .wrap { grid-template-columns: minmax(0,1fr) 13.5rem; }
+body.no-rail .wrap { grid-template-columns: 15.5rem minmax(0,1fr); }
+body.no-side.no-rail .wrap { grid-template-columns: minmax(0,1fr); }
+body.no-side nav.side { display: none; }
+body.no-rail aside.rail { display: none; }
+main { padding: 3.6rem 3rem 6rem; }
+.col { max-width: var(--measure); margin: 0 auto; }
+
+/* single-column pages: index, course toc, reference */
+.inner { max-width: 44rem; margin: 0 auto; padding: 3.8rem 2rem 6rem; }
+body.page-reference .inner { max-width: 52rem; }
+
+/* ---------------- sidebar ---------------- */
+nav.side { position: sticky; top: 0; height: 100vh; overflow-y: auto;
+           border-right: 1px solid var(--rule); padding: 2.2rem 1.3rem 3rem;
+           font-size: .84rem; line-height: 1.5; }
+nav.side .up { color: var(--muted); text-decoration: none; display: block; margin-bottom: 1.2rem; }
+nav.side .up:hover { color: var(--accent); }
+nav.side .course { display: block; color: var(--strong); font-weight: 650; font-size: .95rem;
+                   text-decoration: none; letter-spacing: -.01em; line-height: 1.35; }
+nav.side ol { list-style: none; margin: 0; padding: 0; }
+nav.side ol a { display: flex; gap: .55rem; text-decoration: none; color: var(--text);
+                padding: .3rem 0 .3rem .65rem; border-left: 2px solid transparent; }
+nav.side ol a:hover { color: var(--accent); border-left-color: var(--border); }
+nav.side ol a .n { color: var(--muted); font-variant-numeric: tabular-nums; font-size: .78rem; }
+nav.side ol a.here { color: var(--accent); font-weight: 650; border-left-color: var(--accent); }
+nav.side ol a.here .n { color: var(--accent); }
+nav.side .refs a { display: block; color: var(--text); text-decoration: none;
+                   padding: .24rem 0 .24rem .65rem; }
+nav.side .refs a:hover { color: var(--accent); }
+
+/* group label: accent inside the sidebar and rail, neutral on the course page */
+nav.side .grp, aside.rail .grp { color: var(--accent); }
+.grp { color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .13em;
+       text-transform: uppercase; margin: 1.8rem 0 .45rem; }
+
+/* ---------------- right rail (on this page) ---------------- */
+aside.rail { position: sticky; top: 0; max-height: 100vh; overflow-y: auto;
+             padding: 4.4rem 1.3rem 3rem 0; font-size: .8rem; }
+aside.rail .grp { margin: 0 0 .5rem; }
+aside.rail a { display: block; color: var(--muted); text-decoration: none; line-height: 1.4;
+               padding: .28rem 0 .28rem .75rem; border-left: 2px solid var(--rule); }
+aside.rail a:hover { color: var(--accent); }
+aside.rail a.here { color: var(--strong); border-left-color: var(--accent); }
+
+/* ---------------- headings ---------------- */
+h1 { font-size: 2.3rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.1;
+     color: var(--strong); margin: 0 0 1.6rem; }
+.lede { color: var(--muted); font-size: 1.05rem; margin: 0 0 2.6rem; }
+.sec { border-top: 1px solid var(--rule); margin-top: 2.4rem; padding-top: 1.6rem; }
+.sec:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+h2 { font-size: 1.25rem; font-weight: 650; letter-spacing: -.015em; color: var(--accent);
+     margin: 0 0 .9rem; }
+.sec > h2 { cursor: pointer; user-select: none; }
+.sec.fold > h2 { margin-bottom: 0; }
+.sec.fold .body { display: none; }
+h3 { font-size: 1rem; font-weight: 650; color: var(--strong); margin: 1.8rem 0 .45rem; }
+
+/* ---------------- citations ---------------- */
+.cite { font-size: .78rem; color: var(--muted); }
+.cite b { color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-size: .92em; }
+
+/* ---------------- notes ---------------- */
+.note { border-left: 2px solid var(--accent);
+        background: color-mix(in srgb, var(--accent) 7%, transparent);
+        border-radius: 0 5px 5px 0; padding: .7rem .95rem; margin: 1.3rem 0; font-size: .94rem; }
+.note b:first-child { color: var(--accent); display: block; font-size: .74rem; font-weight: 700;
+                      letter-spacing: .1em; text-transform: uppercase; margin-bottom: .15rem; }
+.note.tip { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 8%, transparent); }
+.note.tip b:first-child { color: var(--ok); }
+.note.warn { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 9%, transparent); }
+.note.warn b:first-child { color: var(--warn); }
+
+/* ---------------- code ---------------- */
+pre { font-family: var(--mono); font-size: .82rem; line-height: 1.6; overflow-x: auto;
+      border-left: 2px solid var(--rule); padding: .3rem 0 .3rem 1rem; margin: 1.2rem 0; }
+code { font-family: var(--mono); }
+p code, li code, td code, dd code, .quiz button code { font-size: .87em; color: var(--accent); }
+/* mono sits high against the sans face at this size; drop it onto the sans baseline */
+.quiz button code { vertical-align: -.2em; line-height: inherit; }
+.tok-k { color: #f47067; } .tok-s { color: #96d0ff; } .tok-c { color: var(--muted); }
+.tok-f { color: #dcbdfb; } .tok-n { color: #6cb6ff; }
+body.light .tok-k { color: #cf222e; } body.light .tok-s { color: #0a3069; }
+body.light .tok-f { color: #6639ba; } body.light .tok-n { color: #0550ae; }
+
+/* ---------------- table ---------------- */
+table { width: 100%; border-collapse: collapse; font-size: .88rem; margin: 1.3rem 0; }
+th, td { text-align: left; padding: .5rem .8rem .5rem 0; border-bottom: 1px solid var(--rule);
+         vertical-align: top; }
+th { color: var(--accent); font-weight: 700; font-size: .7rem; letter-spacing: .1em;
+     text-transform: uppercase; border-bottom-color: var(--border); }
+
+/* ---------------- definition list (reference pages) ---------------- */
+dl { margin: 1rem 0; }
+dt { color: var(--strong); font-weight: 650; }
+dd { margin: 0 0 .7rem; }
+.cols { columns: 2; column-gap: 2.4rem; }
+.cols > * { break-inside: avoid; }
+
+/* ---------------- figure ---------------- */
+figure { margin: 1.7rem 0; }
+figure svg, figure img { max-width: 100%; }
+figcaption { color: var(--muted); font-size: .78rem; margin-top: .55rem; }
+
+/* Network-topology figures. Recurs across pages, so it lives here rather than
+   in each svg. Put a colour class and a shape class on the same element:
+   class="nt-link nt-bmc". Every colour follows the theme. */
+.nt-box { fill: var(--panel); stroke: var(--border); stroke-width: 1.5 }
+.nt-band { fill: var(--bg); stroke: var(--border); stroke-width: 1.5 }
+.nt-lbl { font: 600 14px var(--sans); fill: var(--strong) }
+.nt-sub { font: 500 11px var(--sans); fill: var(--muted) }
+.nt-pin { font: 600 11px var(--mono); fill: var(--text) }
+.nt-wan  { --c: #a371f7 }
+body.light .nt-wan { --c: #6639ba }
+.nt-data { --c: var(--ok) }
+.nt-bmc  { --c: var(--accent) }
+.nt-prov { --c: var(--bad) }
+.nt-link { stroke: var(--c); stroke-width: 2.5; fill: none }
+.nt-node { fill: var(--panel); stroke: var(--c); stroke-width: 2 }
+.nt-hollow { fill: var(--bg); stroke: var(--c); stroke-width: 1.5 }
+.nt-t { fill: var(--c) }
+
+/* ---------------- quiz ---------------- */
+.quiz { margin: 1.3rem 0 1.7rem; }
+.quiz .q { color: var(--strong); font-weight: 650; margin: 0 0 .55rem; display: flex; gap: .5rem; }
+.quiz .q .qn { color: var(--accent); }
+.quiz button { display: block; width: 100%; text-align: left; font: inherit; font-size: .89rem;
+               background: none; color: var(--text); border: none;
+               border-left: 2px solid var(--rule); padding: .45rem .85rem; cursor: pointer; }
+.quiz button:hover { border-left-color: var(--accent); color: var(--strong); }
+.quiz button.right { border-left-color: var(--ok); color: var(--strong);
+                     background: color-mix(in srgb, var(--ok) 9%, transparent); }
+.quiz button.wrong { border-left-color: var(--bad); color: var(--muted);
+                     background: color-mix(in srgb, var(--bad) 7%, transparent); }
+.quiz .why { font-size: .82rem; color: var(--muted); padding: .5rem 0 0 .85rem; min-height: 1.2em; }
+.quiz .why.ok { color: var(--ok); }
+.quiz .why.no { color: var(--bad); }
+
+/* ---------------- checklist ---------------- */
+.check { list-style: none; padding: 0; margin: 1.1rem 0; font-size: .91rem; }
+.check li { display: flex; gap: .7rem; align-items: baseline; padding: .35rem 0; }
+.check input { accent-color: var(--accent); }
+.check li:has(input:checked) { color: var(--muted); text-decoration: line-through; }
+
+/* ---------------- prev / next ---------------- */
+.pn { display: flex; justify-content: space-between; gap: 1.5rem; margin: 4rem 0 0;
+      padding-top: 1.3rem; border-top: 1px solid var(--rule); }
+.pn a { text-decoration: none; font-size: .85rem; max-width: 48%; }
+.pn a span { display: block; color: var(--muted); font-size: .68rem; font-weight: 700;
+             letter-spacing: .13em; text-transform: uppercase; margin-bottom: .2rem; }
+.pn a b { display: block; color: var(--text); font-weight: 600; }
+.pn a:hover b { color: var(--accent); }
+.pn .next { text-align: right; margin-left: auto; }
+.ask { font-size: .8rem; color: var(--muted); margin: 1.8rem 0 0; }
+
+/* ---------------- course page (TOC) ---------------- */
+.up { font-size: .84rem; color: var(--muted); text-decoration: none; }
+.up:hover { color: var(--accent); }
+.page-course h1, .page-index h1 { margin: 1.1rem 0 .6rem; }
+.why, .sub { color: var(--muted); margin: 0 0 2.6rem; }
+.toc { list-style: none; margin: 0; padding: 0; }
+.toc a { display: flex; gap: 1rem; text-decoration: none; color: inherit;
+         padding: .8rem 0; border-top: 1px solid var(--rule); }
+.toc li:last-child a { border-bottom: 1px solid var(--rule); }
+.toc a .n { font-size: .78rem; color: var(--muted); font-variant-numeric: tabular-nums;
+            padding-top: .3rem; min-width: 1.6rem; }
+.toc a b { display: block; color: var(--strong); font-weight: 650; font-size: 1.05rem;
+           letter-spacing: -.012em; }
+.toc a .s { display: block; color: var(--muted); font-size: .91rem; }
+.toc a:hover b { text-decoration: underline; text-underline-offset: 3px; }
+.refs { margin-top: 2.8rem; padding-top: 1.3rem; border-top: 1px solid var(--rule);
+        font-size: .88rem; }
+.refs .grp { margin-top: 0; }
+.page-course .refs a, .page-reference .refs a { display: inline-block; margin-right: 1.2rem;
+        text-decoration: none; }
+.page-course .refs a:hover { text-decoration: underline; }
+
+/* ---------------- courses index ---------------- */
+.course-list { list-style: none; margin: 0; padding: 0; }
+.course { display: block; text-decoration: none; color: inherit;
+          padding: 1.3rem 0; border-top: 1px solid var(--rule); }
+.course-list li:last-child .course { border-bottom: 1px solid var(--rule); }
+.course .t { display: flex; align-items: baseline; gap: .8rem; }
+.course h2 { font-size: 1.2rem; font-weight: 650; letter-spacing: -.015em; color: var(--accent);
+             margin: 0; cursor: inherit; }
+.course:hover h2 { text-decoration: underline; text-underline-offset: 3px; }
+.course .n { color: var(--muted); font-size: .76rem; margin-left: auto; white-space: nowrap; }
+.course p { margin: .3rem 0 .5rem; color: var(--muted); font-size: .94rem; }
+.course .last { font-size: .82rem; color: var(--muted); }
+.course .last b { color: var(--text); font-weight: 600; }
+.course:hover .last b { color: var(--accent); }
+.course.idle { opacity: .62; }
+.course.idle h2 { color: var(--muted); }
+.tag { font-size: .68rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase;
+       color: var(--accent); border: 1px solid var(--border); border-radius: 3px;
+       padding: .08rem .35rem; vertical-align: 1px; }
+
+/* ---------------- narrow screens ---------------- */
+@media (max-width: 1000px) {
+  .wrap { grid-template-columns: minmax(0,1fr) !important; }
+  nav.side { position: static; height: auto; border-right: none;
+             border-bottom: 1px solid var(--rule); }
+  aside.rail { display: none !important; }
+  main { padding: 2.4rem 1.3rem 4rem; }
+  .inner { padding: 2.6rem 1.3rem 4rem; }
+  .cols { columns: 1; }
+  .course .t { flex-wrap: wrap; }
+  .course .n { margin-left: 0; }
+}
+
+/* ---------------- print: always light, always unfolded ---------------- */
+@media print {
+  /* the light palette, so a page printed from dark mode is still readable */
+  body, body.light {
+    --bg: #fdfcfa; --panel: #f5f2ec; --text: #3a4048; --strong: #14181d; --muted: #6b7480;
+    --border: #ddd8ce; --rule: #e7e2d8;
+    --accent: #0b5cad; --accent-dim: #0b5cad;
+    --ok: #1a7f37; --bad: #cf222e; --warn: #8a6100;
+  }
+  .ctl, nav.side, aside.rail, .pn, .ask { display: none !important; }
+  .wrap { display: block !important; }
+  main, .inner { padding: 0; max-width: none; }
+  body { font-size: 11pt; }
+  .sec.fold .body { display: block !important; }
+}

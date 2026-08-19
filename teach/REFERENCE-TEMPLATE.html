@@ -4,133 +4,57 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- ============================================================
-  REFERENCE TEMPLATE — copy to <workspace>/reference/<dash-case-name>.html
+  REFERENCE TEMPLATE — copy to <course>/reference/<dash-case-name>.html
 
-  For cheat sheets, glossaries, syntax tables, pose sequences —
-  the compressed essence of lessons, built for QUICK LOOKUP and
-  revisiting. Denser than a lesson; no interactivity.
+  Cheat sheets, syntax tables, algorithms, pose sequences. The
+  compressed essence of lessons, built for quick lookup. Denser
+  than a lesson, and not interactive.
 
-  Same block-kit idea as LESSON-TEMPLATE.html: compose from the
-  blocks below, rename kickers freely. Use .cols for long lists.
-  Dark on screen, prints light automatically.
+  REQUIRED
+    1. body class="page-reference"
+    2. the back link to the course page, and an h1
+    3. the footer line saying which lessons this distils
 
-  Do NOT restyle. Delete unused blocks and template comments.
+  Tables and definition lists beat prose here. Wrap a long dl in
+  class="cols" for two columns. Do NOT restyle.
+  Delete unused blocks and every template comment before saving.
 ============================================================ -->
-<title>TOPIC — REFERENCE TITLE</title>
-<style>
-  :root {
-    --bg: #22272e; --card: #2d333b; --border: #444c56;
-    --text: #adbac7; --strong: #cdd9e5; --muted: #768390;
-    --accent: #539bf5; --ok: #57ab5a; --warn: #c69026;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text);
-         font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-         font-size: .92rem; line-height: 1.5; }
-  .inner { max-width: 64rem; margin: 0 auto; padding: 2.2rem 2rem 3rem; }
-
-  .doc-type { display: block; color: var(--accent);
-              font-size: .85rem; font-weight: 600; letter-spacing: .1em; }
-  h1 { font-size: 2rem; font-weight: 700; letter-spacing: -.02em;
-       margin: .4rem 0 1.4rem; color: var(--strong); }
-
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
-          padding: 1rem 1.2rem; margin: .9rem 0; }
-  .kicker { font-size: .95rem; font-weight: 700; letter-spacing: .1em;
-            text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .5rem; }
-  a { color: var(--accent); }
-  strong, b { color: var(--strong); }
-  .cite { font-size: .78rem; color: var(--muted); }
-
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin: .9rem 0; }
-  .row .card { margin: 0; }
-  .cols { columns: 2; column-gap: 2rem; }
-  .cols > * { break-inside: avoid; }
-
-  /* glossary / definition list */
-  dl { margin: .3rem 0; }
-  dt { color: var(--strong); font-weight: 600; }
-  dd { margin: 0 0 .6rem; color: var(--text); }
-
-  /* code */
-  pre { background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-        padding: .7rem .9rem; overflow-x: auto; font-size: .82rem; line-height: 1.5; }
-  code { font-family: ui-monospace, "JetBrains Mono", monospace; }
-  p code, li code, td code, dd code { background: var(--bg); border: 1px solid var(--border);
-        border-radius: 4px; padding: .06em .3em; font-size: .85em; }
-  .tok-k { color: #f47067; } .tok-s { color: #96d0ff; } .tok-c { color: #768390; }
-  .tok-f { color: #dcbdfb; } .tok-n { color: #6cb6ff; }
-
-  /* callouts */
-  .callout { border-left: 3px solid var(--accent); background: rgba(83,155,245,.08);
-             border-radius: 0 8px 8px 0; padding: .55rem .8rem; margin: .7rem 0; font-size: .88rem; }
-  .callout.tip { border-color: var(--ok); background: rgba(87,171,90,.08); }
-  .callout.warn { border-color: var(--warn); background: rgba(198,144,38,.08); }
-
-  /* table — the workhorse of reference docs */
-  table { width: 100%; border-collapse: collapse; font-size: .85rem; margin: .6rem 0; }
-  th, td { border: 1px solid var(--border); padding: .35rem .6rem; text-align: left;
-           vertical-align: top; }
-  th { color: var(--strong); background: var(--bg); }
-  tbody tr:nth-child(even) { background: rgba(68,76,86,.18); }
-
-  figure { margin: .8rem 0; text-align: center; }
-  figure svg, figure img { max-width: 100%; }
-  figcaption { color: var(--muted); font-size: .78rem; margin-top: .3rem; }
-
-  .refs { font-size: .82rem; color: var(--muted); margin-top: 1.6rem; }
-
-  @media (max-width: 800px) {
-    .inner { padding: 1.5rem 1rem 2.5rem; }
-    .row { grid-template-columns: 1fr; }
-    .cols { columns: 1; }
-  }
-  @media print {
-    :root { --bg: #fff; --card: #fff; --border: #d0d7de;
-            --text: #24292f; --strong: #000; --muted: #57606a;
-            --accent: #0550ae; --ok: #1a7f37; --warn: #9a6700; }
-    body { font-size: 9.5pt; }
-    .inner { padding: 0; max-width: none; }
-    .card { break-inside: avoid; }
-  }
-</style>
+<title>REFERENCE TITLE · COURSE TITLE</title>
+<link rel="stylesheet" href="../../assets/teach.css">
 </head>
-<body>
+<body class="page-reference">
+
 <main class="inner">
 
-  <!-- BLOCK: header (required) -->
-  <span class="doc-type">REFERENCE · TOPIC-SLUG</span>
+  <a class="up" href="../index.html">← COURSE TITLE</a>
   <h1>Reference title</h1>
 
-  <!-- BLOCK: section card — any kicker; repeat as needed -->
-  <div class="card"><span class="kicker">Section</span>
-    <p>Dense, lookup-oriented content. Tables and definition lists over prose.</p>
-    <table>
-      <thead><tr><th>Thing</th><th>Value</th><th>Notes</th></tr></thead>
-      <tbody><tr><td>…</td><td>…</td><td>…</td></tr></tbody>
-    </table>
-  </div>
+  <!-- BLOCK: section. Repeat. No .sec wrapper here, reference pages do not fold. -->
+  <h2>Section heading</h2>
+  <table>
+    <thead><tr><th>Thing</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody><tr><td>…</td><td>…</td><td>…</td></tr></tbody>
+  </table>
 
-  <!-- BLOCK: glossary — wrap the dl in .cols when long -->
-  <div class="card"><span class="kicker">Glossary</span>
-    <dl class="cols">
-      <dt>Term</dt><dd>Definition, one or two lines.</dd>
-      <dt>Term</dt><dd>Definition.</dd>
-    </dl>
-  </div>
+  <!-- BLOCK: definition list -->
+  <h2>Terms</h2>
+  <dl class="cols">
+    <dt>Term</dt><dd>Definition, one or two lines.</dd>
+    <dt>Term</dt><dd>Definition.</dd>
+  </dl>
 
-  <!-- BLOCK: two-up row for related small sections -->
-  <div class="row">
-    <div class="card"><span class="kicker">Limits</span>
-      <ul><li>…</li></ul></div>
-    <div class="card"><span class="kicker">Gotchas</span>
-      <div class="callout warn"><b>Careful</b> — …</div></div>
-  </div>
+  <!-- BLOCK: code -->
+  <h2>Syntax</h2>
+  <pre><code><span class="tok-k">let</span> x = <span class="tok-f">example</span>(<span class="tok-s">"string"</span>, <span class="tok-n">42</span>);</code></pre>
 
-  <!-- BLOCK: footer links (required) -->
-  <p class="refs">Distilled from: <a href="#">lesson NNNN</a> · <a href="#">lesson NNNN</a> ·
-    sources: <a href="#">…</a></p>
+  <!-- BLOCK: gotchas -->
+  <div class="note warn"><b>Careful</b> The thing that catches people out.</div>
+
+  <p class="refs">Distilled from <a href="../lessons/NNNN-name.html">lesson NNNN</a> ·
+    sources: <a href="#">source</a></p>
 
 </main>
+
+<script src="../../assets/teach.js"></script>
 </body>
 </html>
