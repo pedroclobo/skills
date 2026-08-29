@@ -16,6 +16,7 @@ Resolve PR review comments. Only tackle the issues raised in the comments. Don't
    - show the reviewer's name
    - quote the comment verbatim
    - give some brief context
+   - show the estimated code diff if the fix is small
    - use `/interview` to reach a shared understanding of the fix/reply
    Done when user confirms the chosen fix/reply for that item.
 
@@ -27,3 +28,4 @@ Resolve PR review comments. Only tackle the issues raised in the comments. Don't
    Done when the code matches the confirmed plan and contains no unrelated edits.
 
 Do not batch questions. Do not edit code before the user confirms the final plan.
+Never push changes, mark threads as resolved or post replies on GitHub without the user's explicit request.
