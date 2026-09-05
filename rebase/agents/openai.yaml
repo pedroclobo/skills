@@ -1,3 +1,5 @@
 interface:
   display_name: "Rebase"
-  short_description: "Rebase the current branch with conflict tracking"
+  short_description: "Rebase a branch, resolving trivial conflicts and interviewing the user on the rest."
+policy:
+  allow_implicit_invocation: false

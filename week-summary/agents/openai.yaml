@@ -1,5 +1,5 @@
 interface:
   display_name: "Week summary"
-  short_description: "Summarize weekly work from GitHub activity"
+  short_description: "Produce a paste-ready weekly meeting summary from GitHub activity."
 policy:
   allow_implicit_invocation: false

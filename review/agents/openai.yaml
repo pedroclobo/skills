@@ -1,5 +1,5 @@
 interface:
   display_name: "Code review"
-  short_description: "Review a PR or branch without editing it"
+  short_description: "Manual PR/branch review."
 policy:
   allow_implicit_invocation: false

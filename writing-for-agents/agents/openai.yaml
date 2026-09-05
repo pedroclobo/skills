@@ -1,3 +1,5 @@
 interface:
   display_name: "Writing for agents"
-  short_description: "Write predictable instructions for agents"
+  short_description: "Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAUDE.md."
+policy:
+  allow_implicit_invocation: true

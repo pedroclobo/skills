@@ -1,5 +1,5 @@
 interface:
   display_name: "Teach"
-  short_description: "Teach a new skill or concept over time"
+  short_description: "Teach the user a new skill or concept. Courses live in ~/teach, one per topic."
 policy:
   allow_implicit_invocation: false

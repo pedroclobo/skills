@@ -1,3 +1,5 @@
 interface:
   display_name: "Unslop"
-  short_description: "Remove AI tells from writing"
+  short_description: "Cut AI tells from any writing. Apply when explaining something, exposing a problem or writing in general."
+policy:
+  allow_implicit_invocation: true

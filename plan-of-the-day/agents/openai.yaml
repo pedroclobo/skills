@@ -1,5 +1,5 @@
 interface:
   display_name: "Plan of the day"
-  short_description: "Draft today's plan from GitHub notifications"
+  short_description: "Draft today's plan of the day from GitHub notification emails in Gmail."
 policy:
   allow_implicit_invocation: false

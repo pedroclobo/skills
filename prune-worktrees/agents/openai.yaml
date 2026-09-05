@@ -1,5 +1,5 @@
 interface:
   display_name: "Prune worktrees"
-  short_description: "Remove worktrees for merged GitHub PRs"
+  short_description: "Prune worktrees whose branches have merged GitHub PRs."
 policy:
   allow_implicit_invocation: false

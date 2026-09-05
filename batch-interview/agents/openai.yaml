@@ -1,3 +1,5 @@
 interface:
   display_name: "Batch interview"
-  short_description: "Ask every design question round by round"
+  short_description: "A relentless interview that asks every frontier question at once, round by round."
+policy:
+  allow_implicit_invocation: true
