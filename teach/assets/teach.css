@@ -172,10 +172,18 @@ body.light .nt-wan { --c: #6639ba }
 .nt-hollow { fill: var(--bg); stroke: var(--c); stroke-width: 1.5 }
 .nt-t { fill: var(--c) }
 
+/* Lesson diagrams. SVG text does not inherit `color`, so without this the
+   labels render black and vanish on the dark theme. Set fill only, so a
+   per-figure font-size attribute still wins. */
+.diagram { display: block; margin: 1.6rem auto; max-width: 100%; color: var(--text); }
+.diagram text { fill: var(--strong); font-family: var(--sans); }
+.diagram text.dim { fill: var(--muted); }
+
 /* ---------------- quiz ---------------- */
 .quiz { margin: 1.3rem 0 1.7rem; }
-.quiz .q { color: var(--strong); font-weight: 650; margin: 0 0 .55rem; display: flex; gap: .5rem; }
-.quiz .q .qn { color: var(--accent); }
+.quiz .q { color: var(--strong); font-weight: 650; margin: 0 0 .55rem;
+           padding-left: 1.6rem; text-indent: -1.6rem; }
+.quiz .q .qn { color: var(--accent); margin-right: .45rem; }
 .quiz button { display: block; width: 100%; text-align: left; font: inherit; font-size: .89rem;
                background: none; color: var(--text); border: none;
                border-left: 2px solid var(--rule); padding: .45rem .85rem; cursor: pointer; }
