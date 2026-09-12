@@ -1,9 +1,8 @@
 # Skills
 
 - [`address-review`](https://github.com/pedroclobo/skills/tree/main/address-review) - Resolve PR review comments one at a time and implement the agreed fixes.
-- [`batch-interview`](https://github.com/pedroclobo/skills/tree/main/batch-interview) - Ask all currently answerable design questions in rounds until the decisions are settled.
 - [`handoff`](https://github.com/pedroclobo/skills/tree/main/handoff) - Write a compact handoff document for another agent.
-- [`interview`](https://github.com/pedroclobo/skills/tree/main/interview) - Explore a plan, decision, or idea one question at a time.
+- [`interview`](https://github.com/pedroclobo/skills/tree/main/interview) - Ask all currently answerable design questions in rounds until the decisions are settled.
 - [`plan-of-the-day`](https://github.com/pedroclobo/skills/tree/main/plan-of-the-day) - Build today's work plan from GitHub notifications in Gmail.
 - [`prune-worktrees`](https://github.com/pedroclobo/skills/tree/main/prune-worktrees) - Remove worktrees whose branches have merged GitHub PRs.
 - [`rebase`](https://github.com/pedroclobo/skills/tree/main/rebase) - Rebase the current branch onto a requested base and track conflicts.
