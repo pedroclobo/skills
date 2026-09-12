@@ -1,6 +1,7 @@
 # Skills
 
 - [`address-review`](https://github.com/pedroclobo/skills/tree/main/address-review) - Resolve PR review comments one at a time and implement the agreed fixes.
+- [`bro`](https://github.com/pedroclobo/skills/tree/main/bro) - Restate the last message in plain human language.
 - [`handoff`](https://github.com/pedroclobo/skills/tree/main/handoff) - Write a compact handoff document for another agent.
 - [`interview`](https://github.com/pedroclobo/skills/tree/main/interview) - Ask all currently answerable design questions in rounds until the decisions are settled.
 - [`plan-of-the-day`](https://github.com/pedroclobo/skills/tree/main/plan-of-the-day) - Build today's work plan from GitHub notifications in Gmail.
