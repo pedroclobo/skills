@@ -12,7 +12,7 @@ Rebase the current branch onto the requested base, or onto local `master`/`main`
    - Run the repo's formatter once all conflicts for the commit are resolved. Continue only when formatting passes.
    - Stage only the resolved paths and run `GIT_EDITOR=true git rebase --continue`.
 
-2. Interview the user on the non-trivial conflicts in the paused commit, all in one round via `/interview`.
+2. Interview the user on the non-trivial conflicts in the paused commit, all in one round via `$interview`.
    - For each, give the replayed commit, the conflicted hunk, justify why it is non-trivial to solve, and give a recommended path.
 
 3. Validate once the rebase completes.
