@@ -7,7 +7,7 @@ disable-model-invocation: true
 Run a diff-anchored review. Inspect files, diffs, and history as needed. Make no edits and run no tests, builds, formatters, linters, benchmarks, or CI.
 
 1. Prepare scope.
-   - The user will either specify a remote branch, and you should review the PR, or not specify anything at all, and you should review the current branch.
+   - The user will either specify a remote PR identifier (like "#14"), or not specify anything at all, and you should review the current branch.
    - For PRs: use `gh` to create a temporary branch in `/tmp`. Also fetch the title and PR description for additional context.
    - For local branches: identify the current branch.
 
@@ -48,8 +48,10 @@ Run a diff-anchored review. Inspect files, diffs, and history as needed. Make no
    - Merge duplicate reports from several lenses.
 
 4. Report the found items concisely, grouped by root cause and ordered **Must change**, **Should change**, then **Nit**.
-   - Provide a short background and description for each of the issues.
-   - Show relevant code or code diffs when applicable.
-   - Head each cluster `Severity: root cause`. List findings as `file:line: problem and concrete impact`.
+   For each item you should include:
+   - Unique identifier for the issue,
+   - Relevant file/line location and the relevant code,
+   - Code diff with the fix, if relevant,
+   - A concise draft of a GitHub comment that can be posted as a review comment. Never post comments yourself.
 
 If no findings, say `No review findings.`
