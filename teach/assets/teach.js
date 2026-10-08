@@ -223,6 +223,33 @@
     });
   }
 
+  /* ---------------- syntax highlighting ----------------
+     Colours every <pre> block that has no hand-written token spans.
+     Python-shaped pseudocode: comments, strings, numbers (hex too),
+     keywords, calls, assignment targets and operators. */
+  var KW = /^(and|as|assert|break|class|continue|def|del|elif|else|except|for|from|if|import|in|is|lambda|not|or|pass|return|while|with|yield|True|False|None|let|fn|mut|const|match|loop)$/;
+  function hl(src) {
+    var re = /(#[^\n]*|\/\/[^\n]*)|("(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*')|(\b0x[0-9a-fA-F_]+\b|\b\d[\d_]*(?:\.\d+)?\b)|([A-Za-z_]\w*)(?=\s*\()|([A-Za-z_][\w.]*)(?=\s*(?:\[[^\]\n]*\])?\s*(?:[+\-*\/|&^]?=)(?!=))|([A-Za-z_]\w*)|(==|!=|<=|>=|<<|>>|\*\*|[=+\-*\/<>%&|^~])/g;
+    var out = '', last = 0, m;
+    while ((m = re.exec(src))) {
+      out += esc(src.slice(last, m.index));
+      var t = m[0], c = null;
+      if (m[1]) c = 'c'; else if (m[2]) c = 's'; else if (m[3]) c = 'n';
+      else if (m[4]) c = KW.test(t) ? 'k' : 'f';
+      else if (m[5]) c = KW.test(t) ? 'k' : 'v';
+      else if (m[6]) c = KW.test(t) ? 'k' : null;
+      else if (m[7]) c = 'o';
+      out += c ? '<span class="tok-' + c + '">' + esc(t) + '</span>' : esc(t);
+      last = re.lastIndex;
+    }
+    return out + esc(src.slice(last));
+  }
+  document.querySelectorAll('pre').forEach(function (pre) {
+    var t = pre.querySelector('code') || pre;
+    if (t.querySelector('*') || pre.classList.contains('plain')) return;
+    t.innerHTML = hl(t.textContent);
+  });
+
   /* ---------------- quiz ---------------- */
   document.querySelectorAll('.quiz').forEach(function (q) {
     var bs = q.querySelectorAll('button'), why = q.querySelector('.why');
@@ -237,6 +264,50 @@
         }
       };
     });
+  });
+
+  /* ---------------- stepped figures ----------------
+     <figure class="steps"> with an svg inside. On any element:
+       data-s="k"       visible from step k onwards
+       data-at="j k"    visible only at the listed steps
+       data-on="j k"    gets class "on" at the listed steps
+     A <span data-at="k"> in the figcaption captions step k.
+     The step count is the largest k used. data-ms sets the play speed. */
+  document.querySelectorAll('figure.steps').forEach(function (f) {
+    var items = [].slice.call(f.querySelectorAll('[data-s],[data-at],[data-on]'));
+    var nums = function (v) { return (v || '').split(/\s+/).filter(Boolean).map(Number); };
+    var n = 1;
+    items.forEach(function (x) {
+      nums(x.dataset.s).concat(nums(x.dataset.at), nums(x.dataset.on))
+        .forEach(function (k) { if (k > n) n = k; });
+    });
+    var k = 1, timer = null, ms = +f.dataset.ms || 1800;
+    var bar = el('div', 'stepctl');
+    var prev = el('button', null, '◀'), next = el('button', null, '▶');
+    var play = el('button', null, '⏵ play'), lab = el('span', 'k');
+    prev.title = 'Previous step'; next.title = 'Next step'; play.title = 'Play all steps';
+    [prev, next, play, lab].forEach(function (b) { bar.appendChild(b); });
+    f.appendChild(bar);
+    function show() {
+      items.forEach(function (x) {
+        var vis = true;
+        if (x.dataset.s) vis = k >= +x.dataset.s;
+        if (x.dataset.at) vis = nums(x.dataset.at).indexOf(k) > -1;
+        x.classList.toggle('fk-gone', !vis);
+        if (x.dataset.on) x.classList.toggle('on', nums(x.dataset.on).indexOf(k) > -1);
+      });
+      lab.textContent = 'step ' + k + ' / ' + n;
+    }
+    function stop() { clearInterval(timer); timer = null; play.textContent = '⏵ play'; }
+    prev.onclick = function () { stop(); k = k > 1 ? k - 1 : n; show(); };
+    next.onclick = function () { stop(); k = k < n ? k + 1 : 1; show(); };
+    play.onclick = function () {
+      if (timer) return stop();
+      play.textContent = '⏸ pause';
+      timer = setInterval(function () { k = k < n ? k + 1 : 1; show(); }, ms);
+    };
+    show();
+    requestAnimationFrame(function () { f.classList.add('fk-ready'); });
   });
 
   /* ---------------- checklist, remembered per page ---------------- */
