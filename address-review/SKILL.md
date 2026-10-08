@@ -16,7 +16,7 @@ Resolve PR review comments. Only tackle the issues raised in the comments. Don't
    - show the reviewer's name
    - quote the comment verbatim
    - give some brief context
-   - show the estimated code diff if the fix is small
+   - show the estimated code diff (this should be an actual code diff, not just an estimate on the number of changed lines)
    - use `$interview` to reach a shared understanding of the fix/reply
    Done when user confirms the chosen fix/reply for that item.
 
