@@ -1,5 +1,5 @@
 interface:
   display_name: "Code review"
-  short_description: "Manual PR/branch review."
+  short_description: "Manual PR/branch review, triaged with the user and staged as a pending GitHub review."
 policy:
   allow_implicit_invocation: false
