@@ -9,6 +9,7 @@
 - [`prune-worktrees`](https://github.com/pedroclobo/skills/tree/main/prune-worktrees) - Remove worktrees whose branches have merged GitHub PRs.
 - [`rebase`](https://github.com/pedroclobo/skills/tree/main/rebase) - Rebase the current branch onto a requested base and track conflicts.
 - [`review`](https://github.com/pedroclobo/skills/tree/main/review) - Perform a manual PR or branch review without editing files.
+- [`show-me`](https://github.com/pedroclobo/skills/tree/main/show-me) - Explain the current topic visually with diagrams, code sketches, and HTML artifacts.
 - [`teach`](https://github.com/pedroclobo/skills/tree/main/teach) - Teach a topic through stateful courses stored under `~/teach`.
 - [`unslop`](https://github.com/pedroclobo/skills/tree/main/unslop) - Remove AI-like writing patterns and make prose more direct.
 - [`week-summary`](https://github.com/pedroclobo/skills/tree/main/week-summary) - Produce a paste-ready weekly meeting summary from GitHub activity.
